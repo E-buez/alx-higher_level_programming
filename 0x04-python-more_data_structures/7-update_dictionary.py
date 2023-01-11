@@ -1,19 +1,25 @@
 #!/usr/bin/python3
 
 
-def print_sorted_dictionary(a_dictionary):
+def update_dictionary(a_dictionary, key, value):
     if a_dictionary is not None:
-        sorted_keys = sorted(a_dictionary.keys())
-        for k in sorted_keys:
-            print("{:s}: {}".format(k, a_dictionary[k]))
-
+        new_dict = a_dictionary
+        new_dict[key] = value
+        return new_dict
 
 if __name__ == '__main__':
-    a_dictionary = {
-        'language': "C",
-        'Number': 89,
-        'track':
-        "Low level",
-        'ids': [1, 2, 3]
-    }
-    print_sorted_dictionary(a_dictionary)
+    print_s = __import__('6-print_sorted_dictionary').print_sorted_dictionary
+
+    a_dictionary = {'language': "C", 'number': 89, 'track': "Low level"}
+    new_dict = update_dictionary(a_dictionary, 'language', "Python")
+    print_s(new_dict)
+    print("--")
+    print_s(a_dictionary)
+
+    print("--")
+    print("--")
+
+    new_dict = update_dictionary(a_dictionary, 'city', "San Francisco")
+    print_s(new_dict)
+    print("--")
+    print_s(a_dictionary)
