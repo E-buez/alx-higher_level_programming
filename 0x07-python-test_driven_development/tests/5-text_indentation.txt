@@ -1,3 +1,5 @@
+
+
 Test all delimeter with spaces at ends:
 >>> text_indentation("Hello   :     Holberton    ?    school.    fooo     ")
 Hello:
