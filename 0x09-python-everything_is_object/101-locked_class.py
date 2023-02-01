@@ -1,15 +1,17 @@
 #!/usr/bin/python3
 """
-LockedClass
+Write a class LockedClass with no class or object attribute,
+that prevents the user from dynamically creating new instance
+attributes, except if the new instance attribute is called
+first_name.
+https://stackoverflow.com/questions/3603502/prevent-creating-new-attributes-outside-init
 """
 
 
 class LockedClass:
-    """ No class or object attributes, can't set
-        Except for first_name
-    """
-    def __setattr__(self, attribute, value):
-        if attribute == "first_name":
-            self.__dict__[attribute] = value
-        else:
-            raise AttributeError("'LockedClass' object has no attribute '" + attribute + "'")
+    "Lock Class"
+    __slots__ = ["first_name"]
+
+    def __init__(self, first_name=""):
+        self.first_name = first_name
+
