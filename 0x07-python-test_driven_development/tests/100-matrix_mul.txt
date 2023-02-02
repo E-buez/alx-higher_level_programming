@@ -1,79 +1,100 @@
-#!/usr/bin/python3
-"""Module built for Python 0x07 advanced task 100. """
+The ``100-matrix.mul`` module
+=============================
+This module contains only one function: matrix_mul.
 
+Using ``matrix_mul``
+--------------------
 
-def matrix_mul(m_a, m_b):
-    """Function that performs matrix multiplication on two two-dimensional lists
-    of integers/floats. Error checking and input filtration could be done more
-    compactly, but assignment requested a specific order of checks.
-    Args:
-        m_a (list of lists of ints or floats): first 2D list to operate on
-        m_b (list of lists of ints or floats): first 2D list to operate on
-    Returns: product of first two matricies
-    """
+First import
+~~~~~~~~~~~~
+First import ``matrix_mul`` from the ``100-matrix.mul`` module. Since the file name contains a numeral, you can't use the simple ``from 100-matrix.mul import matrix_mul``. You can instead use the following syntax:
 
-    # list type
-    if type(m_a) is not list:
-        raise TypeError('m_a must be a list')
-    if type(m_b) is not list:
-        raise TypeError('m_b must be a list')
+    >>> matrix_mul = __import__('100-matrix_mul').matrix_mul
 
-    # list of lists
-    for row in m_a:
-        if type(row) is not list:
-            raise TypeError('m_a must be a list of lists')
-    for row in m_b:
-        if type(row) is not list:
-            raise TypeError('m_b must be a list of lists')
+Normal Use
+~~~~~~~~~~
+Now matrix_mul can be used to find the product of two int/float matricies, so long as the width of ``m_a`` in columns is equal to the height of ``m_b`` in rows:
 
-    # no empty lists
-    if len(m_a) is 0:
-        raise ValueError("m_a can't be empty")
-    if len(m_b) is 0:
-        raise ValueError("m_b can't be empty")
+    >>> matrix_mul([[1, 2, 3], [4, 5, 6]], [[1, 2], [3, 4], [5, 6]])
+    [[22, 28], [49, 64]]
 
-    # no empty lists inside lists
-    for row in m_a:
-        if len(row) is 0:
-            raise ValueError("m_a can't be empty")
-    for row in m_b:
-        if len(row) is 0:
-            raise ValueError("m_b can't be empty")
+The function can take floating point values as well as integers, but the resulting values will be represented as floats if any constituent value are a floats:
 
-    # matricies only contain ints or floats
-    for row in m_a:
-        for value in row:
-            if type(value) is not int and type(value) is not float:
-                raise TypeError('m_a should contain only integers or floats')
-    for row in m_b:
-        for value in row:
-            if type(value) is not int and type(value) is not float:
-                raise TypeError('m_b should contain only integers or floats')
+    >>> matrix_mul([[1, 2.5, 3], [4, 5, 6]], [[1, 2], [3, 4], [5, 6]])
+    [[23.5, 30.0], [49, 64]]
 
-    # matricies are rectangular
-    row_len = len(m_a[0])
-    for row in m_a:
-        if len(row) is not row_len:
-            raise TypeError('each row of m_a must be of the same size')
-    row_len = len(m_b[0])
-    for row in m_b:
-        if len(row) is not row_len:
-            raise TypeError('each row of m_b must be of the same size')
+Exceptions
+~~~~~~~~~~
+Both ``m_a`` and ``m_b`` have a number of requirements for succesful matrix multiplication:
 
-    # matrix multiplication failure - width of m_a in columns is not equal to
-    # height of m_b in rows
-    if len(m_a[0]) != len(m_b):
-        raise ValueError("m_a and m_b can't be multiplied")
+- Both must be lists, or TypeErrors ``m_a must be a list`` or ``m_b must be a list`` arise.
 
-    new_matrix = []
-    for a_row in range(len(m_a)):
-        new_row = []
-        # m_a width must equal m_b height
-        for b_col in range(len(m_b[0])):
-            sum = 0
-            for a_col in range(len(m_a[0])):
-                prod = m_a[a_row][a_col] * m_b[a_col][b_col]
-                sum += prod
-            new_row.append(sum)
-        new_matrix.append(new_row)
-    return new_matrix
+    >>> matrix_mul('asdf', [[1 , 2], [3, 4]])
+    Traceback (most recent call last):
+        ...
+    TypeError: m_a must be a list
+
+    >>> matrix_mul([[1, 2], [3, 4]], ([1, 2], [3, 4]))
+    Traceback (most recent call last):
+        ...
+    TypeError: m_b must be a list
+
+- Both must be lists of lists, or TypeErrors ``m_a must be a list of lists`` or ``m_b must be a list of lists`` arise.
+
+    >>> matrix_mul(['asdf', 'jkl;'], [[1 , 2], [3, 4]])
+    Traceback (most recent call last):
+        ...
+    TypeError: m_a must be a list of lists
+
+    >>> matrix_mul([[1, 2], [3, 4]], [1, 2, 3, 4])
+    Traceback (most recent call last):
+        ...
+    TypeError: m_b must be a list of lists
+
+- Both must not be empty in either dimension (``[]`` or ``[[]]``,) or ValueErrors ``m_a can't be empty`` or ``m_b can't be empty`` arise.
+
+    >>> matrix_mul([], [[1, 2], [3, 4]])
+    Traceback (most recent call last):
+        ...
+    ValueError: m_a can't be empty
+
+    >>> matrix_mul([[1, 2], [3, 4]], [[1, 2], []])
+    Traceback (most recent call last):
+        ...
+    ValueError: m_b can't be empty
+
+- Both must have second dimension elements of only ints or floats, or TypeErrors ``m_a should contain only integers or floats`` or ``m_b should contain only integers or floats`` arise.
+
+    >>> matrix_mul([[1, '2'], [3, 4]], [[1, 2], [3, 4]])
+    Traceback (most recent call last):
+        ...
+    TypeError: m_a should contain only integers or floats
+
+    >>> matrix_mul([[1, 2], [3, 4]], [[1, 2], [[3], 4]])
+    Traceback (most recent call last):
+        ...
+    TypeError: m_b should contain only integers or floats
+
+- Each must be "rectangluar," with rows of equal length, or TypeErrors ``each row of m_a must be of the same size`` or ``each row of m_b must be of the same size`` arise.
+
+    >>> matrix_mul([[1, 2], [3, 4, 5]], [[1, 2], [3, 4]])
+    Traceback (most recent call last):
+        ...
+    TypeError: each row of m_a must be of the same size
+
+    >>> matrix_mul([[1, 2], [3, 4]], [[1], [3, 4]])
+    Traceback (most recent call last):
+        ...
+    TypeError: each row of m_b must be of the same size
+
+- It must be possible to perform matrix multiplication, or ValueError ``m_a and m_b can't be multiplied`` will arise. Failure can happen  as mentioned in `Normal Use`_ if the width of ``m_a`` in columns is not equal to the height of ``m_b`` in rows:
+
+    >>> matrix_mul([[1, 2, 3], [4, 5, 6]], [[1, 2], [3, 4]])
+    Traceback (most recent call last):
+        ...
+    ValueError: m_a and m_b can't be multiplied
+
+    >>> matrix_mul([[1, 2], [3, 4]], [[1, 2], [3, 4], [5, 6]])
+    Traceback (most recent call last):
+        ...
+    ValueError: m_a and m_b can't be multiplied
