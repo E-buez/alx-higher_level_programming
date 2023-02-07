@@ -14,4 +14,3 @@ def write_file(filename="", text=""):
         nc = f.write(text)
 
     return nc
-
