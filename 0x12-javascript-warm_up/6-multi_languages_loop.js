@@ -1,7 +1,6 @@
 #!/usr/bin/node
-let i = 0;
-const arr = ['C is fun', 'Python is cool', 'Javascript is amazing'];
-
-for (i = 0; i < arr.length; i++) {
-  console.log(arr[i]);
+/* print from array */
+const strings = ['C is fun', 'Python is cool', 'Javascript is amazing'];
+for (const string in strings) {
+  console.log(strings[string]);
 }
