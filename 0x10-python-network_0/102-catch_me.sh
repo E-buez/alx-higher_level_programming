@@ -1,3 +1,3 @@
 #!/bin/bash
-# Displays the body of the response of a curl POST request
-curl -sLX PUT -d "Origin:You got me!" 0.0.0.0:5000/catch_me
+# catch me if you can!
+curl -sL -X PUT -d X-School-User-Id=98 -H "You got me!" 0.0.0.0:5000/catch_me
