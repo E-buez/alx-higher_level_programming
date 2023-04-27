@@ -1,23 +1,28 @@
 #!/usr/bin/python3
 
 def find_peak(list_of_integers):
-    """Finds peak
-    Args:
-        list_of_integers (list): list of integers
-    """
-    len_lst = len(list_of_integers)
-    if len_lst < 3:
-        return None
-    peak = list_of_integers[1]
-    for i in range(1, len_lst):
-        if list_of_integers[i] >= peak:
-            peak = list_of_integers[i]
-    return peak
 
-if __name__ == "__main__":
-    print(find_peak([1, 2, 4, 6, 3]))
-    print(find_peak([4, 2, 1, 2, 3, 1]))
-    print(find_peak([2, 2, 2]))
-    print(find_peak([]))
-    print(find_peak([-2, -4, 2, 1]))
-    print(find_peak([4, 2, 1, 2, 3, 1]))
+    if list_of_integers is None or len(list_of_integers) == 0:
+        return None
+
+    if len(list_of_integers) == 1:
+        return list_of_integers[0]
+
+    mid_idx = int(len(list_of_integers) / 2)
+
+    if mid_idx != len(list_of_integers) - 1:
+        if list_of_integers[mid_idx - 1] < list_of_integers[mid_idx] and\
+           list_of_integers[mid_idx + 1] < list_of_integers[mid_idx]:
+            return list_of_integers[mid_idx]
+    else:
+        if list_of_integers[mid_idx - 1] < list_of_integers[mid_idx]:
+            return list_of_integers[mid_idx]
+        else:
+            return list_of_integers[mid_idx - 1]
+
+    if list_of_integers[mid_idx - 1] > list_of_integers[mid_idx]:
+        a_list = list_of_integers[0:mid_idx]
+    else:
+        a_list = list_of_integers[mid_idx + 1:]
+
+    return find_peak(a_list)
