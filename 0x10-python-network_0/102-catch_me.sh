@@ -1,3 +1,3 @@
 #!/bin/bash
-# catch me that causes the server response
-curl -s -L -H "Origin: You got me!"
+# Get request to the URL and display the body of the response
+curl -sLX PUT -d "User-Id=98" -H "Origin: You got me!" 0.0.0.0:5000/catch_me
