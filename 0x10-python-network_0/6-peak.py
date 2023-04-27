@@ -1,13 +1,10 @@
 #!/usr/bin/python3
-""" Test function find_peak """
+"""function"""
 
 
-def find_peak(lx):
-    """fynction to find peak """
-    if not lx:
-        return None
-    for i in range(len(lx)):
-        if lx[0] < lx[i]:
-            lx[0] = lx[i]
-
-    return lx[0]
+def find_peak(list_of_integers):
+    """pike"""
+    if len(list_of_integers) == 0:
+        return
+    list_of_integers.sort()
+    return list_of_integers[-1]
